@@ -1,7 +1,8 @@
-
-# Interface for Strategy pattern
+from abc import ABC, abstractmethod
+# abstract class for template method
 class algorithm:
 
+    @abstractmethod
     def train(self, env: object, N: int, parameters: set):
 
         """ Trains the environment to find the best parameters"""
@@ -13,6 +14,7 @@ class algorithm:
 
         pass
 
+    @abstractmethod
     def plot_graphs(self, env: object, eps: int, runs: int, parameters: set):
 
         """ Runs the train algorithm multiple times"""
@@ -23,6 +25,7 @@ class algorithm:
 
         pass
 
+    @abstractmethod
     def run_game(self, final_parameters):
 
         """ given the best parameters run one episode of the environment"""

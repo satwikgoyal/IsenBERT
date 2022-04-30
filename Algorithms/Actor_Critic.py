@@ -1,4 +1,4 @@
-from Algorithm import algorithm
+from Algorithms.Algorithm import algorithm
 import numpy as np
 import gym
 import matplotlib.pyplot as plt
@@ -8,10 +8,9 @@ class actor_critic(algorithm):
     ### HELPER METHODS ###
             
     ## normalize functions between 0 and 1 cosine
-    def normalize(state):
+    def normalize(self,state):
 
-        s0 = state[0]
-        s1 = state[1]
+        s0, s1 = state
 
         # s0 = x, s1 = v
         new_s0 = (s0 + 1.2) / (0.5 + 1.2)
@@ -25,8 +24,7 @@ class actor_critic(algorithm):
         # normalize
         state = self.normalize(s)
 
-        s0 = state[0] 
-        s1 = state[1]
+        s0, s1 = state
 
         # full fourier basis function using cosine
         phi = [1.0]
@@ -45,7 +43,7 @@ class actor_critic(algorithm):
 
 
     # softmax to get the next action, probability of action, and gradient for actor critic
-    def softmax(epsilon, theta, phi):
+    def softmax(self,epsilon, theta, phi):
 
         policy = np.zeros(theta.shape[0])
 
@@ -96,6 +94,7 @@ class actor_critic(algorithm):
 
             # get initial state
             state = env.reset()
+
             gamma = 1.0
 
             step_counter = 0
@@ -104,34 +103,23 @@ class actor_critic(algorithm):
 
             # loop until reach goal state or terminate after 200 actions
             while finish != True and step_counter <200:
-                    
+
                 # phi for softmax
                 phi_soft = self.compute_phi(M1,state)
 
                 # get action
                 action, prob, grad = self.softmax(epsilon, theta, phi_soft)
                 
-                # call env step to get new env states
-                # new_observation = env.step(action)
-
-                next_state, reward, finish = env.step(action)
-                
-                # # next state
-                # next_state = new_observation[0]
-                
-                # # next reward
-                # reward = new_observation[1]
-                
-                # # goal state
-                # finish = new_observation[2]    
+                # next state, reward, boolean for goal state
+                next_state, reward, finish, _ = env.step(action)
 
                 # phi function approx
-                phi_approx = self.compute_phi(M2, state) # change to full fourier basis
+                phi_approx = self.compute_phi(M2, state)
 
                 # phi for next state
-                phi_approx_p = self.compute_phi(M2, next_state) # change to full fourier basis
+                phi_approx_p = self.compute_phi(M2, next_state) 
 
-                # delta                                  # function aproximation 
+                # delta                                 
                 delta =  reward + (gamma*(w.dot(phi_approx_p))) - (w.dot(phi_approx))
 
                 # update w
@@ -206,16 +194,9 @@ class actor_critic(algorithm):
             action, _, _ = self.softmax(epsilon, theta, phi_soft)
 
             env.render()
-            # get next state
-            # call env step to get new env states
-            # new_observation = env.step(action)
 
-            new_state, _, done = env.step(action)
-
-            # # next state
-            # new_state = new_observation[0]
-            
-            # done = new_observation[2]
+            # next state, boolean for goal state
+            new_state, _, done, _ = env.step(action)
 
             #update state
             state = new_state
