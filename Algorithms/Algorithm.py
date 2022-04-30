@@ -2,7 +2,7 @@
 # Interface for Strategy pattern
 class algorithm:
 
-    def train():
+    def train(self, env: object, N: int, parameters: set):
 
         """ Trains the environment to find the best parameters"""
         """ Should return two lists and parameters"""
@@ -13,7 +13,7 @@ class algorithm:
 
         pass
 
-    def plot_graphs():
+    def plot_graphs(self, env: object, eps: int, runs: int, parameters: set):
 
         """ Runs the train algorithm multiple times"""
         """ Then take the mean of the two lists"""
@@ -23,7 +23,7 @@ class algorithm:
 
         pass
 
-    def run_game():
+    def run_game(self, final_parameters):
 
         """ given the best parameters run one episode of the environment"""
 
