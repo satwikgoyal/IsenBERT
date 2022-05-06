@@ -82,13 +82,10 @@ class actor_critic(algorithm):
         # parameters for actor critic
         alpha_theta, alpha_w, M1, M2, epsilon = parameters
        
-        curve_list = []
         step_list = []
         
         theta = np.zeros((3, (M1+1)**2))
         w = np.zeros(((M2+1)**2))
-        
-        ac_counter = 0
 
         for i in range(N):
 
@@ -130,13 +127,11 @@ class actor_critic(algorithm):
 
                 state = next_state
 
-                ac_counter += 1
                 step_counter += 1
 
-            curve_list.append(ac_counter)
             step_list.append(step_counter)
             
-        return curve_list, step_list, theta
+        return step_list, theta
 
 
     def plot_graphs(self,env, eps, runs, parameters):
@@ -146,21 +141,12 @@ class actor_critic(algorithm):
 
         for i in range(runs):
             print(i)
-            curve, step, theta = self.train(env, eps, parameters)
-            curve_list.append(curve)
+            step, theta = self.train(env, eps, parameters)
             step_list.append(step)
 
         # compute mean and standard deviation
-        curve = np.mean(curve_list, axis = 0)
         step = np.mean(step_list, axis = 0)
         std_step = np.std(step_list, axis = 0)
-
-        # plot total number of actions vs episodes
-        plt.plot(curve, range(eps))
-        plt.xlabel("Number of Actions")
-        plt.ylabel("Number of Episodes")
-        plt.title("Actor-Critic Curve between actions and episodes")
-        plt.show()
 
         # plot episodes vs steps to the goal state
         plt.errorbar(range(eps), step, std_step, ecolor="red")

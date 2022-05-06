@@ -3,25 +3,23 @@ from abc import ABC, abstractmethod
 class algorithm:
 
     @abstractmethod
-    def train(self, env: object, N: int, parameters: set):
+    def train(self, env: object, N: int, parameters: tuple):
 
         """ Trains the environment to find the best parameters"""
-        """ Should return two lists and parameters"""
-        """ 1. list where it contains the current number of actions taken """
-        """ 2. list where it contains the number of steps to the goal state per episode"""
-        """ 3. parameters in order to play the game (parameters to get the best policy)"""
+        """ Should return list and parameters"""
+        """ 1. list where it contains the number of steps to the goal state per episode"""
+        """ 2. parameters in order to play the game (parameters to get the best policy)"""
         """ parameters can be more than one variable"""
 
         pass
 
     @abstractmethod
-    def plot_graphs(self, env: object, eps: int, runs: int, parameters: set):
+    def plot_graphs(self, env: object, eps: int, runs: int, parameters: tuple):
 
         """ Runs the train algorithm multiple times"""
-        """ Then take the mean of the two lists"""
-        """ Plot two graphs"""
-        """ 1. Number of actions vs Number of Episodes"""
-        """ 2. Number of Episodes vs Number of steps to goal"""
+        """ Then take the mean of lists"""
+        """ Plot graph"""
+        """ Number of Episodes vs Number of steps to goal"""
 
         pass
 
