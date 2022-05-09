@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 env = gym.make('MountainCar-v0')
 
-class sarsa_lambda(algorithm):
+class sarsa_lambda:
     def train():
       alpha = 0.37
       gamma = 0.975
@@ -15,6 +15,7 @@ class sarsa_lambda(algorithm):
       epsilon = 0.99
       epsilon_start = 1
       episodes = 500
+
       epsilon_end = episodes // 2
       high = env.observation_space.high
       low = env.observation_space.low
@@ -92,15 +93,15 @@ class sarsa_lambda(algorithm):
 
         if epsilon_end >= episode >= epsilon_start:
             epsilon -= epsilon_decay_value
+        # epsilon_decay_value = epsilon / (epsilon_end - epsilon_start)
 
         scores.append(score)
       return step_list, curve_list, q_table
 
 
 
-
     def graph():
-      step_list, curve_list = train()
+      step_list, curve_list, _ = sarsa_lambda.train()
       curve = np.mean(curve_list, axis = 0)
       step = np.mean(step_list, axis = 0)
       std_step = np.std(step_list, axis = 0)
@@ -116,26 +117,29 @@ class sarsa_lambda(algorithm):
 
       y = y[start_x:]
 
-      plt.fill_between(x[start_x:],y - std_step, y + std_step, alpha=0.4,edgecolor='#1B2ACC', linewidth=0.3, linestyle='dashdot',  antialiased=True)
+      plt.fill_between(x[start_x:], y - std_step, y + std_step, alpha=1, facecolor='red', linewidth=1,linestyle='dashdot', antialiased=True)
       plt.title("Sarsa Lambda between episodes and step to achive")
       plt.xlabel('Episodes')
       plt.ylabel('step_to_achive')
       plt.show()
 
-
     def game_run():
-      done = False
-      state = env.reset()
-      _,_,q_table = train()
-      while not done:
-          q_len = 20
-          discrete_size_list = [q_len for i in range(0, len(env.observation_space.high))]
-          size = (env.observation_space.high - env.observation_space.low) / discrete_size_list
-          state_new = (state - env.observation_space.low) // size
-          discrete_state = tuple(int(i) for i in state_new)
-          action = np.argmax(q_table[discrete_state])
-          next_state, _, done, _ = env.step(action)
-          state = next_state
-          env.render()
+        import _pickle as cPickle
+        import pickle
+        f = open('./trained_file_v2.pkl', 'rb+')
+        q_table = cPickle.load(f)
+        done = False
+        state = env.reset()
+        while not done:
+            DISCRETE_OS_SIZE = [17] * len(env.observation_space.high)
+            discrete_os_win_size = (env.observation_space.high - env.observation_space.low) / DISCRETE_OS_SIZE
+            discrete_state = (state - env.observation_space.low) // discrete_os_win_size
+            discrete_state2 = tuple(discrete_state.astype(int))
+            action = np.argmax(q_table[discrete_state2])
+            next_state, _, done, _ = env.step(action)
+            state = next_state
+            env.render()
 
-      env.close()
+        env.close()
+
+sarsa_lambda.game_run()
