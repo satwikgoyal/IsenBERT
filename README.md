@@ -1,5 +1,5 @@
 # About this Repository
-- This repo is for a course project for CompSci 520, 
+- This repository is for a course project for CompSci 520, 
 - We have used 4 Reinforcement Learning algorithms for OpenAI gym's Mountain Car,
 - We have applied Software Engineering strategies and techniques. We have used the Template Method design pattern and have code reviewed OpenAI gym's documentation,
 - The Algorithms directory contains the Template for all algorithms as well as the code for all algorithms,
