@@ -7,11 +7,11 @@
 
 - Contains 3 methods:
 
-  - train: used to train/find best hyperparameters,
+  - train: Used to train/find best hyperparameters,
 
-  - plot_graphs: runs train method as many times and compute mean and standard deviation. Produces one learning graph (Steps taken to Reach the Goal v/s Number of Episodes),
+  - plot_graphs: Runs train method as many times and compute mean and standard deviation. Produces one learning graph (Steps taken to Reach the Goal v/s Number of Episodes),
 
-  - run_game: runs one game of the environment. Shows visualization of game.
+  - run_game: Runs one game of the environment. Shows visualization of game.
 
 
 ### Subclasses 
