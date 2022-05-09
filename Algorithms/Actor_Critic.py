@@ -140,7 +140,7 @@ class actor_critic(algorithm):
         step_list = []
 
         for i in range(runs):
-            print(i)
+            # print(i)
             step, theta = self.train(env, eps, parameters)
             step_list.append(step)
 
@@ -152,8 +152,8 @@ class actor_critic(algorithm):
         plt.errorbar(range(eps), step, std_step, ecolor="red")
         plt.xlabel("Number of Episodes")
         plt.ylabel("Number of steps to goal")
-        plt.ylim(75, 250)
-        plt.yticks(range(100,250,50))
+        plt.ylim(50, 250)
+        plt.yticks(range(50,250,25))
         plt.title("Actor-Critic Curve between episodes and step to goal")
         plt.show()
 
@@ -171,7 +171,7 @@ class actor_critic(algorithm):
 
         while done != True:
 
-            print(counter)
+            # print(counter)
 
             # phi softmax
             phi_soft = self.compute_phi(M1,state) # change to full fourier basis
