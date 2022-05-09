@@ -5,7 +5,7 @@
 
 - This is an abstract class which is used for the Template Method design pattern
 
-- Contains 3 methods
+- Contains 3 methods:
 
   - train: used to train/find best hyperparameters
 
